@@ -1,15 +1,17 @@
 console.log('hello world');
 
 let grid;
-
-function setup(){
-   createCanvas(400,400);
-   grid = [
+function blankGrid() {
+   return [
       [0,0,0,0],
       [0,0,0,0],
       [0,0,0,0],
       [0,0,0,0]
    ];
+}
+function setup(){
+   createCanvas(400,400);
+   grid = blankGrid();
    addNumber();
    addNumber();
 }
@@ -32,12 +34,7 @@ function addNumber() {
 }
 
 function copyGrid(grid) {
-   let extra = [
-      [0,0,0,0],
-      [0,0,0,0],
-      [0,0,0,0],
-      [0,0,0,0]
-   ];
+   let extra = blankGrid();
 
    for (var i = 0; i < 4; i++) {
       for (var j = 0; j < 4; j++) {
@@ -58,39 +55,70 @@ function compare(a,b) {
       return false;
 }
 
-function flip(grid) {
+function flipGrid(grid) {
    for (var i = 0; i < 4; i++) {
       grid[i].reverse();
    }
    return grid;
 }
+function rotateGrid(grid) {
+   let newGrid = blankGrid();
+   for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+      newGrid[i][j] = grid[j][i];
+      }
+   }
+   return newGrid;
+}
+
 function keyPressed() {
+      let rotated = false;
       let flipped = false;
+      let played = true;
    switch (keyCode) {
       case DOWN_ARROW:
             // nothing
             break;
       case UP_ARROW :
-            flip(grid);
+            grid = flipGrid(grid);
             flipped = true;
-
-         break;
+            break;
+      case RIGHT_ARROW:
+            grid = rotateGrid(grid);
+            rotated = true;
+            break;
+      case LEFT_ARROW:
+            grid = rotateGrid(grid);
+            grid = flipGrid(grid)
+            rotated = true;
+            flipped = true;
+            break;
       default:
+            console.log('sss');
+            played = false;
+            break;
 
    }
+   if (played = true) {
 
-   let past = copyGrid(grid);
-   for(let i = 0; i < 4; i++){
-   grid[i] = operate(grid[i]);
+         let past = copyGrid(grid);
+         for(let i = 0; i < 4; i++){
+         grid[i] = operate(grid[i]);
+         }
+         let changed = compare(past, grid);
+         if(flipped){
+            grid = flipGrid(grid);
+         }
+         if(rotated){
+            grid = rotateGrid(grid);
+            grid = rotateGrid(grid);
+            grid = rotateGrid(grid);
+         }
+         if (changed === true) {
+            addNumber();
+         }
+
    }
-   let changed = compare(past, grid);
-   if(flipped){
-      flip(grid);
-   }
-   if (changed === true) {
-      addNumber();
-   }
-   
 }
 
 function operate(row) {
