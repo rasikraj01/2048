@@ -31,13 +31,44 @@ function addNumber() {
    grid[spot.x][spot.y] = random(1) > 0.5 ? 2 : 4;
 }
 
+function copyGrid(grid) {
+   let extra = [
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0]
+   ];
+
+   for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+         extra[i][j] = grid[i][j]
+      }
+   }
+   return extra;
+}
+function compare(a,b) {
+      for (var i = 0; i < 4; i++) {
+         for (var j = 0; j < 4; j++) {
+            if (a[i][j] != b[i][j]) {
+               return true;
+            }
+         }
+      }
+
+      return false;
+}
 function keyPressed() {
    if(key == ' '){
+
+      let past = copyGrid(grid);
       for(let i = 0; i < 4; i++){
       grid[i] = operate(grid[i]);
       }
+      let changed = compare(past, grid);
+      if (changed === true) {
+         addNumber();
+      }
    }
-   addNumber();
 }
 
 function operate(row) {
