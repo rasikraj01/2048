@@ -34,16 +34,18 @@ function addNumber() {
 function keyPressed() {
    if(key == ' '){
       for(let i = 0; i < 4; i++){
-      row = operate(row);
+      grid[i] = operate(grid[i]);
       }
    }
    addNumber();
 }
-function operate(row) {
-   grid[i] = slide(grid[i]);
-   grid[i] = combine(grid[i]);
-   grid[i] = slide(grid[i]);
 
+function operate(row) {
+   row = slide(row);
+   row = combine(row);
+   row = slide(row);
+
+   return row;
 }
 
 function draw() {
@@ -68,7 +70,6 @@ function combine(row) {
       if(a == b){
          row[i] = a + b;
          row[i - 1] = 0;
-         break;
       }
    }
    return row;
