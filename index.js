@@ -64,7 +64,7 @@ function slide(row) {
 
 // on same arr
 function combine(row) {
-   for (var i = 3; i > 1 ; i--) {
+   for (var i = 3; i >= 0 ; i--) {
       let a = row[i];
       let b = row[i - 1];
       if(a == b){
