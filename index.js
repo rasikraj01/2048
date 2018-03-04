@@ -57,18 +57,40 @@ function compare(a,b) {
 
       return false;
 }
-function keyPressed() {
-   if(key == ' '){
 
-      let past = copyGrid(grid);
-      for(let i = 0; i < 4; i++){
-      grid[i] = operate(grid[i]);
-      }
-      let changed = compare(past, grid);
-      if (changed === true) {
-         addNumber();
-      }
+function flip(grid) {
+   for (var i = 0; i < 4; i++) {
+      grid[i].reverse();
    }
+   return grid;
+}
+function keyPressed() {
+      let flipped = false;
+   switch (keyCode) {
+      case DOWN_ARROW:
+            // nothing
+            break;
+      case UP_ARROW :
+            flip(grid);
+            flipped = true;
+
+         break;
+      default:
+
+   }
+
+   let past = copyGrid(grid);
+   for(let i = 0; i < 4; i++){
+   grid[i] = operate(grid[i]);
+   }
+   let changed = compare(past, grid);
+   if(flipped){
+      flip(grid);
+   }
+   if (changed === true) {
+      addNumber();
+   }
+   
 }
 
 function operate(row) {
