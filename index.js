@@ -2,6 +2,24 @@ console.log('hello world');
 
 let grid;
 let score = 0;
+
+
+function isGameOver() {
+   for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+         if (grid[i][j] === 0) {
+            return false;
+         }
+         if (j !==3 && grid[i][j] === grid[i][j + 1]) {
+            return false;
+         }
+         if (i !== 3 && grid[i][j] === grid[i + 1][j]) {
+            return false;
+         }
+      }
+   }
+   return true;
+}
 function blankGrid() {
    return [
       [0,0,0,0],
@@ -12,9 +30,12 @@ function blankGrid() {
 }
 function setup(){
    createCanvas(400,400);
+   noLoop();
    grid = blankGrid();
    addNumber();
    addNumber();
+
+      updateCanvas();
 }
 function addNumber() {
    let opts = [];
@@ -29,9 +50,10 @@ function addNumber() {
       }
    }
 
-   if(opts.length > 0);
+   if(opts.length > 0){
    let spot = random(opts);
    grid[spot.x][spot.y] = random(1) > 0.5 ? 2 : 4;
+   }
 }
 
 function copyGrid(grid) {
@@ -118,7 +140,12 @@ function keyPressed() {
          if (changed === true) {
             addNumber();
          }
+         updateCanvas();
+         let gameOver = isGameOver();
+         if (gameOver) {
+            select('#gameover').html('<span>NO MORE MOVES LEFT !</span> <br>GAME OVER');
 
+         }
    }
 }
 
@@ -130,7 +157,7 @@ function operate(row) {
    return row;
 }
 
-function draw() {
+function updateCanvas() {
    background(255);
    drawGrid();
    select('#score').html(score);
