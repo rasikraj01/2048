@@ -1,6 +1,7 @@
 console.log('hello world');
 
 let grid;
+let score = 0;
 function blankGrid() {
    return [
       [0,0,0,0],
@@ -132,6 +133,7 @@ function operate(row) {
 function draw() {
    background(255);
    drawGrid();
+   select('#score').html(score);
 }
 
 
@@ -150,6 +152,7 @@ function combine(row) {
       let b = row[i - 1];
       if(a == b){
          row[i] = a + b;
+         score += row[i];
          row[i - 1] = 0;
       }
    }
